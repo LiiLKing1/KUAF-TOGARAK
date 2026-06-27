@@ -12,6 +12,20 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+// Agar .env to'ldirilmagan bo'lsa, aniq xabar beradi
+const missingKeys = Object.entries(firebaseConfig)
+  .filter(([, v]) => !v)
+  .map(([k]) => k);
+
+if (missingKeys.length > 0) {
+  console.warn(
+    `⚠️ Firebase konfiguratsiyasi to'liq emas!\n` +
+    `Quyidagi .env kalitlarini to'ldiring:\n` +
+    missingKeys.map(k => `  VITE_FIREBASE_${k.replace(/([A-Z])/g, '_$1').toUpperCase()}`).join('\n') +
+    `\n\nIlova cheklangan rejimda ishlaydi.`
+  );
+}
+
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
