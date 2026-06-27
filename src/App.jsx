@@ -5,7 +5,12 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
-import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminLayout from "./pages/admin/AdminLayout";
+import DashboardPage from "./pages/admin/DashboardPage";
+import CoursesPage from "./pages/admin/CoursesPage";
+import TeachersPage from "./pages/admin/TeachersPage";
+import RoomsPage from "./pages/admin/RoomsPage";
+import StudentsPage from "./pages/admin/StudentsPage";
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 import StudentDashboard from "./pages/student/StudentDashboard";
 
@@ -36,13 +41,19 @@ const AppRoutes = () => {
 
       {/* Admin sahifalari (faqat admin role) */}
       <Route
-        path="/admin/dashboard"
+        path="/admin"
         element={
           <ProtectedRoute allowedRoles={["admin"]}>
-            <AdminDashboard />
+            <AdminLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="courses" element={<CoursesPage />} />
+        <Route path="teachers" element={<TeachersPage />} />
+        <Route path="rooms" element={<RoomsPage />} />
+        <Route path="students" element={<StudentsPage />} />
+      </Route>
 
       {/* Teacher sahifalari (faqat teacher role) */}
       <Route
