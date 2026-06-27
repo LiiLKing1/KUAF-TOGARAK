@@ -8,6 +8,7 @@ import RegisterPage from "./pages/auth/RegisterPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import DashboardPage from "./pages/admin/DashboardPage";
 import CoursesPage from "./pages/admin/CoursesPage";
+import CourseDetailPage from "./pages/admin/CourseDetailPage";
 import TeachersPage from "./pages/admin/TeachersPage";
 import RoomsPage from "./pages/admin/RoomsPage";
 import StudentsPage from "./pages/admin/StudentsPage";
@@ -50,6 +51,7 @@ const AppRoutes = () => {
       >
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="courses" element={<CoursesPage />} />
+        <Route path="courses/:id" element={<CourseDetailPage />} />
         <Route path="teachers" element={<TeachersPage />} />
         <Route path="rooms" element={<RoomsPage />} />
         <Route path="students" element={<StudentsPage />} />
