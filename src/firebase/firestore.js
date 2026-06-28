@@ -75,6 +75,19 @@ export const queryByField = async (collectionName, field, value) => {
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
 
+/**
+ * Bir nechta shart bilan filter qilib olish
+ * @param {string} collectionName
+ * @param {string} field
+ * @param {string} operator — "==", "<", ">=", "array-contains", etc.
+ * @param {*} value
+ */
+export const getDocumentsWhere = async (collectionName, field, operator, value) => {
+  const q = query(collection(db, collectionName), where(field, operator, value));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+};
+
 // ─── Maxsus yordamchilar ───────────────────────────────────────────────────
 
 /**
@@ -103,6 +116,13 @@ export const getStudentEnrollments = async (studentId) => {
  */
 export const getTeacherCourses = async (teacherId) => {
   return await queryByField("courses", "teacherId", teacherId);
+};
+
+/**
+ * Kursga yozilgan barcha talabalarni olish
+ */
+export const getCourseEnrollments = async (courseId) => {
+  return await queryByField("enrollments", "courseId", courseId);
 };
 
 export { serverTimestamp };

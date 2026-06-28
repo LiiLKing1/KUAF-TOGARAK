@@ -6,8 +6,14 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 import StudentDashboard from "./pages/student/StudentDashboard";
+
+// Teacher module
+import TeacherLayout from "./pages/teacher/TeacherLayout";
+import DashboardPage from "./pages/teacher/DashboardPage";
+import CreateCoursePage from "./pages/teacher/CreateCoursePage";
+import CourseDetailPage from "./pages/teacher/CourseDetailPage";
+import EditCoursePage from "./pages/teacher/EditCoursePage";
 
 // Root yo'naltiruvchi: login bo'lgan foydalanuvchini rolga qarab dashboard'ga yuboradi
 const RootRedirect = () => {
@@ -44,15 +50,33 @@ const AppRoutes = () => {
         }
       />
 
-      {/* Teacher sahifalari (faqat teacher role) */}
+      {/* ── Teacher sahifalari (nested, faqat teacher role) ── */}
       <Route
-        path="/teacher/dashboard"
+        path="/teacher"
         element={
           <ProtectedRoute allowedRoles={["teacher"]}>
-            <TeacherDashboard />
+            <TeacherLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        {/* /teacher → /teacher/dashboard ga redirect */}
+        <Route index element={<Navigate to="/teacher/dashboard" replace />} />
+
+        {/* Dashboard */}
+        <Route path="dashboard" element={<DashboardPage />} />
+
+        {/* Mening kurslarim → Dashboard bilan bir xil (sidebar link) */}
+        <Route path="courses" element={<DashboardPage />} />
+
+        {/* Yangi kurs yaratish */}
+        <Route path="courses/new" element={<CreateCoursePage />} />
+
+        {/* Kurs detail */}
+        <Route path="courses/:courseId" element={<CourseDetailPage />} />
+
+        {/* Kursni tahrirlash */}
+        <Route path="courses/:courseId/edit" element={<EditCoursePage />} />
+      </Route>
 
       {/* Student sahifalari (faqat student role) */}
       <Route

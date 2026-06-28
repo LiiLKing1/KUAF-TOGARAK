@@ -31,7 +31,7 @@ service cloud.firestore {
     // O'qish: o'zi yoki admin
     // Yozish: o'zi (profil yangilash) yoki admin
     match /users/{userId} {
-      allow read: if isOwner(userId) || isAdmin();
+      allow read: if isOwner(userId) || isAdmin() || isTeacher();
       allow create: if isAuthenticated(); // Register paytida
       allow update: if isOwner(userId) || isAdmin();
       allow delete: if isAdmin();
@@ -42,7 +42,7 @@ service cloud.firestore {
     // Yozish: admin yoki o'sha kursning teacherId'siga ega teacher
     match /courses/{courseId} {
       allow read: if isAuthenticated();
-      allow create: if isAdmin();
+      allow create: if isAdmin() || (isTeacher() && request.resource.data.teacherId == request.auth.uid);
       allow update: if isAdmin() ||
         (isTeacher() && resource.data.teacherId == request.auth.uid);
       allow delete: if isAdmin();
